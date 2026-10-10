@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ep009:
+    build:
+      context: ./EP009_jev-mid-frequency-benchmark
+      dockerfile: Dockerfile
+    container_name: ep009-jev-hft-bench
+    ports:
+      - "8770:8770"
+    volumes:
+      - ./EP009_jev-mid-frequency-benchmark:/app
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
