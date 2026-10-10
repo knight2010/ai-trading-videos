@@ -1,9 +1,12 @@
-FROM python:3.11-slim
+FROM freqtradeorg/freqtrade:latest
 
-WORKDIR /app
+WORKDIR /freqtrade
 
+# 只复制你的策略和配置到容器里
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# 如果需要额外的 Python 包（可选）
+# RUN if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-CMD ["python", "main.py"]
+# Freqtrade 的默认启动方式
+CMD ["freqtrade"]
