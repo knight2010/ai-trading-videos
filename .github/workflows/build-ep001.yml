@@ -1,0 +1,18 @@
+name: Build EP001 Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'EP001_claude-freqtrade-bot/**'
+      - '.github/workflows/build-ep001.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      ep_name: EP001_claude-freqtrade-bot
+      dockerfile_path: EP001_claude-freqtrade-bot/Dockerfile
+      context: EP001_claude-freqtrade-bot
