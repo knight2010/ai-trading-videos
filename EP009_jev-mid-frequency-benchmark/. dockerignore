@@ -1,0 +1,10 @@
+.git
+.gitignore
+.gitattributes
+node_modules
+results/data/
+*.log
+*.tmp
+README.md
+数据说明.md
+.DS_Store
