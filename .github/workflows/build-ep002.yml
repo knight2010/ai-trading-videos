@@ -1,0 +1,18 @@
+name: Build EP002 Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'EP002_ai-berkshire-research/**'
+      - '.github/workflows/build-ep002.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      ep_name: EP002_ai-berkshire-research
+      dockerfile_path: EP002_ai-berkshire-research/Dockerfile
+      context: EP002_ai-berkshire-research
