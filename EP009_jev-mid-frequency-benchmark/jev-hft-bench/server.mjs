@@ -125,7 +125,13 @@ function analyze(id) {
 }
 
 // ---------- HTTP ----------
-const allowedHosts = new Set([`localhost:${PORT}`, `127.0.0.1:${PORT}`, `[::1]:${PORT}`, ...(args['allow-host'] ? [String(args['allow-host'])] : [])]);
+const allowedHosts = new Set([
+  `localhost:${PORT}`,
+  `127.0.0.1:${PORT}`,
+  `[::1]:${PORT}`,
+  ...(args['allow-host'] ? [String(args['allow-host'])] : []),
+  ...(process.env.ALLOW_HOST ? [String(process.env.ALLOW_HOST)] : []),
+]);
 function guard(req) {
   if (!allowedHosts.has(req.headers.host)) return '不认识的 Host（防 DNS 重绑定）';
   if (req.method !== 'GET') {
@@ -134,7 +140,7 @@ function guard(req) {
   }
   return null;
 }
-const readBody = req => new Promise((res, rej) => { let b = ''; req.on('data', c => { b += c; if (b.length > 1e6) req.destroy(); }); req.on('end', () => { try { res(b ? JSON.parse(b) : {}); } catch (e) { rej(new Error('JSON 格式不对')); } }); });
+const readBody = req => new Promise((res, rej) => { let b = ''; req.on('data', c => { b += c; if (b.length > 1e6) req.destroy(); }); req.on('end', () => { try { res(b ? JSON.parse(b) : {}); } catch (e) { rej(e); } }); req.on('error', rej); });
 const send = (res, code, obj, type = 'application/json; charset=utf-8') => { res.writeHead(code, {'Content-Type': type, 'Cache-Control': 'no-store'}); res.end(typeof obj === 'string' || Buffer.isBuffer(obj) ? obj : JSON.stringify(obj)); };
 
 const routes = {
