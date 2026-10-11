@@ -8,8 +8,9 @@ WORKDIR /app
 
 COPY . .
 
-# Node.js 22 无需额外依赖（零依赖设计）
 EXPOSE 8770
 
 # 启动网页服务
-CMD ["node", "jev-hft-bench/server.mjs"]
+# HOST=0.0.0.0 让服务监听所有网卡
+# ALLOW_HOST 通过环境变量指定允许的外部 Host（防 DNS 重绑定），格式：hostname 或 hostname:port
+CMD ["sh", "-c", "node jev-hft-bench/server.mjs --host ${HOST:-0.0.0.0} $([ -n \"$ALLOW_HOST\" ] && echo \"--allow-host $ALLOW_HOST\" || echo '')"]
