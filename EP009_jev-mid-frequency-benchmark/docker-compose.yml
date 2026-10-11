@@ -12,4 +12,9 @@ services:
       - ./EP009_jev-mid-frequency-benchmark:/app
     environment:
       - NODE_ENV=production
+      # 本地开发时可不设，默认只监听 127.0.0.1
+      # 在反向代理环境（如 dcdeploy）下部署时，需设置：
+      # - HOST=0.0.0.0                    # 监听所有网卡
+      # - ALLOW_HOST=your-domain.com      # 替换为你的实际访问域名
+      # 例如：ALLOW_HOST=jevdev-cnr6b2dzed.dcdeploy.cloud
     restart: unless-stopped
